@@ -8,6 +8,7 @@ export function HomePage() {
   const [title, setTitle] = useState("");
   const [terms, setTerms] = useState("");
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
   const createContract = useMutation(api.contracts.createContract);
   const navigate = useNavigate();
 
@@ -15,9 +16,12 @@ export function HomePage() {
     e.preventDefault();
     if (!title.trim() || !terms.trim()) return;
     setLoading(true);
+    setError(null);
     try {
       const id = await createContract({ title: title.trim(), terms: terms.trim() });
       navigate(`/c/${id}`);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Something went wrong");
     } finally {
       setLoading(false);
     }
@@ -64,6 +68,9 @@ export function HomePage() {
               required
             />
           </div>
+          {error && (
+            <p className="text-sm text-red-500">{error}</p>
+          )}
           <button
             type="submit"
             disabled={loading || !title.trim() || !terms.trim()}

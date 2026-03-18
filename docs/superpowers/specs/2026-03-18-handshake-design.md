@@ -114,6 +114,7 @@ Four button states:
 | `terms` | string | |
 | `status` | `'negotiating' \| 'sealed'` | |
 | `creatorId` | string | Clerk user ID |
+| `creatorName` | string | Creator's display name at creation time (stored so guests see it on the certificate) |
 | `guestId` | string \| null | Anonymous session ID (stored in localStorage); null until claimed |
 | `createdAt` | number | Unix ms |
 | `sealedAt` | number \| null | Unix ms |

@@ -1,0 +1,12 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(bun test:*)",
+      "Bash(git add:*)",
+      "Bash(git commit:*)",
+      "Bash(bun add:*)",
+      "Bash(bunx tailwindcss:*)",
+      "Bash(bunx vite:*)"
+    ]
+  }
+}

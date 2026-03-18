@@ -9,6 +9,7 @@ export default defineSchema({
     creatorId: v.string(),
     creatorName: v.string(), // stored at creation so guests see it on the certificate
     guestId: v.union(v.string(), v.null()),
+    guestName: v.optional(v.string()),
     createdAt: v.number(),
     sealedAt: v.union(v.number(), v.null()),
     creatorHoldStart: v.union(v.number(), v.null()),

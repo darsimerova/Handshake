@@ -57,7 +57,7 @@ export const updateTerms = mutation({
 // No-ops if: caller is authenticated, slot already taken by someone else,
 // or contract is sealed.
 export const claimGuest = mutation({
-  args: { contractId: v.id("contracts"), sessionId: v.string() },
+  args: { contractId: v.id("contracts"), sessionId: v.string(), guestName: v.optional(v.string()) },
   handler: async (ctx, args) => {
     const identity = await ctx.auth.getUserIdentity();
     if (identity) return; // authenticated user — skip
@@ -71,6 +71,7 @@ export const claimGuest = mutation({
     if (contract.guestId !== null) return; // slot taken by someone else
     await ctx.db.patch(args.contractId, {
       guestId: args.sessionId,
+      guestName: args.guestName,
       guestLastSeen: Date.now(),
     });
   },

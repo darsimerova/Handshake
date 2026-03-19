@@ -4,14 +4,18 @@ interface ObserverViewProps {
   message?: string;
 }
 
-export function ObserverView({ title, terms, message = "This contract is being negotiated." }: ObserverViewProps) {
+export function ObserverView({
+  title,
+  terms,
+  message = "This contract is being negotiated.",
+}: ObserverViewProps) {
   return (
-    <div className="min-h-screen flex items-center justify-center p-8">
-      <div className="w-full max-w-2xl flex flex-col gap-4">
-        <p className="text-center text-sm text-muted-foreground">{message}</p>
-        <div className="border rounded-xl p-6 flex flex-col gap-4 opacity-60">
-          <h2 className="text-xl font-semibold">{title}</h2>
-          <p className="whitespace-pre-wrap text-sm">{terms}</p>
+    <div className="min-h-screen bg-zinc-950 flex items-center justify-center px-6 py-12">
+      <div className="w-full max-w-lg flex flex-col gap-5">
+        <p className="text-center text-sm text-zinc-600">{message}</p>
+        <div className="border border-zinc-800 rounded-2xl p-6 flex flex-col gap-4 opacity-50">
+          <h2 className="font-serif text-xl font-bold text-zinc-50">{title}</h2>
+          <p className="whitespace-pre-wrap text-sm text-zinc-500 leading-relaxed">{terms}</p>
         </div>
       </div>
     </div>

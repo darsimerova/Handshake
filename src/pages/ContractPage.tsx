@@ -25,6 +25,7 @@ export function ContractPage() {
         terms={contract.terms}
         sealedAt={contract.sealedAt!}
         creatorName={contract.creatorName}
+        guestName={contract.guestName}
         contractUrl={window.location.href}
       />
     );

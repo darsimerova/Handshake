@@ -28,17 +28,27 @@ export function HomePage() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center p-8 gap-8">
-      <div className="text-center">
-        <h1 className="text-4xl font-bold tracking-tight">🤝 Handshake</h1>
-        <p className="text-muted-foreground mt-2">Create a micro-contract. Negotiate. Seal it together.</p>
+    <div className="min-h-screen bg-zinc-950 flex flex-col items-center justify-center px-6 py-12 gap-10">
+
+      {/* Hero */}
+      <div className="text-center flex flex-col gap-3">
+        <div className="text-5xl">🤝</div>
+        <h1 className="font-serif text-5xl font-black tracking-tight text-zinc-50 leading-none">
+          Handshake
+        </h1>
+        <p className="text-base text-zinc-500 max-w-xs mx-auto leading-relaxed">
+          Create a micro-contract. Negotiate in real time. Seal it together.
+        </p>
       </div>
+
+      {/* Gradient rule */}
+      <div className="w-full max-w-md h-px bg-gradient-to-r from-transparent via-zinc-800 to-transparent" />
 
       <SignedOut>
         <div className="flex flex-col items-center gap-3">
-          <p className="text-sm text-muted-foreground">Sign in to create a contract</p>
+          <p className="text-sm text-zinc-600">Sign in to create a contract</p>
           <SignInButton mode="modal">
-            <button className="rounded-md bg-primary px-6 py-2 text-sm font-medium text-primary-foreground">
+            <button className="bg-indigo-500 hover:bg-indigo-600 text-white font-semibold rounded-lg px-6 py-3 text-sm transition-colors">
               Sign in
             </button>
           </SignInButton>
@@ -46,40 +56,46 @@ export function HomePage() {
       </SignedOut>
 
       <SignedIn>
-        <form onSubmit={handleSubmit} className="flex flex-col gap-4 w-full max-w-lg">
-          <div>
-            <label className="text-sm font-medium mb-1 block">Contract title</label>
+        <form onSubmit={handleSubmit} className="flex flex-col gap-5 w-full max-w-md">
+          <div className="flex flex-col gap-1.5">
+            <label className="text-xs font-semibold uppercase tracking-widest text-zinc-600">
+              Contract title
+            </label>
             <input
-              className="w-full rounded-md border bg-transparent px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-ring"
+              className="w-full bg-zinc-900 border border-zinc-800 rounded-lg px-4 py-3 text-sm text-zinc-50 placeholder:text-zinc-700 focus:outline-none focus:border-indigo-500 transition-colors"
               placeholder="e.g. Freelance Design Work — April 2026"
               value={title}
               onChange={(e) => setTitle(e.target.value)}
               required
             />
           </div>
-          <div>
-            <label className="text-sm font-medium mb-1 block">Terms</label>
+          <div className="flex flex-col gap-1.5">
+            <label className="text-xs font-semibold uppercase tracking-widest text-zinc-600">
+              Terms
+            </label>
             <textarea
-              className="w-full rounded-md border bg-transparent px-3 py-2 text-sm resize-none focus:outline-none focus:ring-1 focus:ring-ring"
+              className="w-full bg-zinc-900 border border-zinc-800 rounded-lg px-4 py-3 text-sm text-zinc-50 placeholder:text-zinc-700 resize-none focus:outline-none focus:border-indigo-500 transition-colors"
               placeholder="Describe the agreement…"
               value={terms}
               onChange={(e) => setTerms(e.target.value)}
-              rows={6}
+              rows={5}
               required
             />
           </div>
-          {error && (
-            <p className="text-sm text-red-500">{error}</p>
-          )}
+          {error && <p className="text-sm text-red-400">{error}</p>}
           <button
             type="submit"
             disabled={loading || !title.trim() || !terms.trim()}
-            className="rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground disabled:opacity-50"
+            className="bg-indigo-500 hover:bg-indigo-600 disabled:opacity-40 text-white font-semibold rounded-lg px-4 py-3 text-sm transition-colors"
           >
             {loading ? "Creating…" : "Create & Get Link →"}
           </button>
         </form>
       </SignedIn>
+
+      <p className="text-[11px] uppercase tracking-widest text-zinc-800">
+        Sealed contracts are permanent &amp; immutable
+      </p>
     </div>
   );
 }

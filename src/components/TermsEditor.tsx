@@ -21,23 +21,15 @@ interface TermsEditorProps {
 }
 
 export function TermsEditor({
-  contractId,
-  title,
-  terms,
-  role,
-  creatorLastSeen,
-  guestLastSeen,
-  holdState,
-  progress,
-  onPressStart,
-  onPressEnd,
+  contractId, title, terms, role,
+  creatorLastSeen, guestLastSeen,
+  holdState, progress, onPressStart, onPressEnd,
 }: TermsEditorProps) {
   const updateTerms = useMutation(api.contracts.updateTerms);
   const [localTitle, setLocalTitle] = useState(title);
   const [localTerms, setLocalTerms] = useState(terms);
   const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-  // Sync when Convex pushes a remote update (other party's edit)
   useEffect(() => { setLocalTitle(title); }, [title]);
   useEffect(() => { setLocalTerms(terms); }, [terms]);
 
@@ -51,38 +43,53 @@ export function TermsEditor({
   }, [contractId, updateTerms]);
 
   return (
-    <div className="flex flex-col gap-4 h-full p-4">
-      <div className="flex items-center justify-between">
-        <span className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+    <div className="flex flex-col gap-4 h-full p-5">
+      {/* Header row */}
+      <div className="flex items-center justify-between flex-shrink-0">
+        <span className="text-[10px] font-semibold uppercase tracking-widest text-zinc-700">
           Contract
         </span>
         <PresenceDots creatorLastSeen={creatorLastSeen} guestLastSeen={guestLastSeen} />
       </div>
 
-      <input
-        className="w-full rounded-md border bg-transparent px-3 py-2 text-sm font-semibold focus:outline-none focus:ring-1 focus:ring-ring"
-        value={localTitle}
-        onChange={(e) => { setLocalTitle(e.target.value); save(e.target.value, localTerms); }}
-        readOnly={!isCreator}
-        placeholder="Contract title"
-      />
-
-      <textarea
-        className="flex-1 w-full rounded-md border bg-transparent px-3 py-2 text-sm resize-none focus:outline-none focus:ring-1 focus:ring-ring"
-        value={localTerms}
-        onChange={(e) => { setLocalTerms(e.target.value); save(localTitle, e.target.value); }}
-        readOnly={!isCreator}
-        placeholder="Terms…"
-        rows={8}
-      />
-
-      {(role === "creator" || role === "guest") && (
-        <HoldButton
-          holdState={holdState}
-          progress={progress}
-          onPressStart={onPressStart}
-          onPressEnd={onPressEnd}
+      {/* Title */}
+      <div className="flex-shrink-0">
+        <div className="text-[10px] font-semibold uppercase tracking-widest text-zinc-700 mb-1.5">
+          Title
+        </div>
+        <input
+          className="w-full bg-zinc-900 border border-zinc-800 rounded-lg px-3 py-2.5 text-sm font-semibold text-zinc-50 placeholder:text-zinc-700 focus:outline-none focus:border-indigo-500 transition-colors read-only:cursor-default"
+          value={localTitle}
+          onChange={(e) => { setLocalTitle(e.target.value); save(e.target.value, localTerms); }}
+          readOnly={!isCreator}
+          placeholder="Contract title"
         />
+      </div>
+
+      {/* Terms */}
+      <div className="flex flex-col flex-1 min-h-0">
+        <div className="text-[10px] font-semibold uppercase tracking-widest text-zinc-700 mb-1.5 flex-shrink-0">
+          Terms
+        </div>
+        <textarea
+          className="flex-1 w-full bg-zinc-900 border border-zinc-800 rounded-lg px-3 py-2.5 text-sm text-zinc-400 placeholder:text-zinc-700 resize-none focus:outline-none focus:border-indigo-500 transition-colors leading-relaxed read-only:cursor-default"
+          value={localTerms}
+          onChange={(e) => { setLocalTerms(e.target.value); save(localTitle, e.target.value); }}
+          readOnly={!isCreator}
+          placeholder="Terms…"
+        />
+      </div>
+
+      {/* Hold button */}
+      {(role === "creator" || role === "guest") && (
+        <div className="flex-shrink-0">
+          <HoldButton
+            holdState={holdState}
+            progress={progress}
+            onPressStart={onPressStart}
+            onPressEnd={onPressEnd}
+          />
+        </div>
       )}
     </div>
   );

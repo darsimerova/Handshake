@@ -26,28 +26,35 @@ export function ChatPanel({ contractId, senderId, senderLabel, readOnly }: ChatP
   };
 
   return (
-    <div className="flex flex-col h-full p-4 gap-3">
-      <span className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+    <div className="flex flex-col h-full p-5 gap-4">
+      <span className="text-[10px] font-semibold uppercase tracking-widest text-zinc-700 flex-shrink-0">
         Chat
       </span>
 
       <div className="flex-1 overflow-y-auto flex flex-col gap-2 min-h-0">
         {messages.length === 0 && (
-          <p className="text-xs text-muted-foreground">No messages yet.</p>
+          <p className="text-xs text-zinc-700">No messages yet.</p>
         )}
-        {messages.map((msg) => (
-          <div key={msg._id} className="text-sm">
-            <span className="font-medium">{msg.senderLabel}: </span>
-            <span className="text-muted-foreground">{msg.text}</span>
-          </div>
-        ))}
+        {messages.map((msg) => {
+          const isMine = msg.senderLabel === senderLabel;
+          return (
+            <div key={msg._id} className="text-[13px] leading-relaxed">
+              <span className={`font-semibold ${isMine ? "text-indigo-400" : "text-zinc-500"}`}>
+                {msg.senderLabel}:{" "}
+              </span>
+              <span className={isMine ? "text-indigo-300" : "text-zinc-500"}>
+                {msg.text}
+              </span>
+            </div>
+          );
+        })}
         <div ref={bottomRef} />
       </div>
 
       {!readOnly && (
-        <form onSubmit={handleSend} className="flex gap-2">
+        <form onSubmit={handleSend} className="flex gap-2 flex-shrink-0">
           <input
-            className="flex-1 rounded-md border bg-transparent px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-ring"
+            className="flex-1 bg-zinc-900 border border-zinc-800 rounded-lg px-3 py-2.5 text-sm text-zinc-50 placeholder:text-zinc-700 focus:outline-none focus:border-indigo-500 transition-colors"
             value={text}
             onChange={(e) => setText(e.target.value)}
             placeholder="Type a message…"
@@ -55,7 +62,7 @@ export function ChatPanel({ contractId, senderId, senderLabel, readOnly }: ChatP
           <button
             type="submit"
             disabled={!text.trim()}
-            className="rounded-md bg-primary px-3 py-2 text-sm font-medium text-primary-foreground disabled:opacity-50"
+            className="bg-zinc-800 hover:bg-zinc-700 disabled:opacity-40 text-zinc-400 font-semibold rounded-lg px-4 py-2.5 text-sm transition-colors"
           >
             Send
           </button>

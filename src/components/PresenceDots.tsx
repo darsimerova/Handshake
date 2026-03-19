@@ -8,7 +8,6 @@ interface PresenceDotsProps {
 }
 
 export function PresenceDots({ creatorLastSeen, guestLastSeen }: PresenceDotsProps) {
-  // Re-render every 10s so dots go stale accurately without waiting for a Convex update
   const [, setTick] = useState(0);
   useEffect(() => {
     const id = setInterval(() => setTick((t) => t + 1), 10_000);
@@ -20,13 +19,23 @@ export function PresenceDots({ creatorLastSeen, guestLastSeen }: PresenceDotsPro
   const guestOnline = guestLastSeen !== null && now - guestLastSeen < ONLINE_MS;
 
   return (
-    <div className="flex items-center gap-3 text-sm text-muted-foreground">
+    <div className="flex items-center gap-4 text-xs text-zinc-600">
       <span className="flex items-center gap-1.5">
-        <span className={`inline-block w-2 h-2 rounded-full ${creatorOnline ? "bg-indigo-500" : "bg-muted"}`} />
+        <span
+          className="inline-block w-[7px] h-[7px] rounded-full"
+          style={creatorOnline
+            ? { background: "#6366f1", boxShadow: "0 0 6px #6366f188" }
+            : { background: "#27272a" }}
+        />
         Creator
       </span>
       <span className="flex items-center gap-1.5">
-        <span className={`inline-block w-2 h-2 rounded-full ${guestOnline ? "bg-green-500" : "bg-muted"}`} />
+        <span
+          className="inline-block w-[7px] h-[7px] rounded-full"
+          style={guestOnline
+            ? { background: "#22c55e", boxShadow: "0 0 6px #22c55e88" }
+            : { background: "#27272a" }}
+        />
         Guest
       </span>
     </div>
